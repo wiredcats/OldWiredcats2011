@@ -1,0 +1,9 @@
+.metadata\
+*.o
+*.d
+ctdt.*
+*.out
+Makefile
+*.csv
+*\PPC603gnu\*
+*.lnk
