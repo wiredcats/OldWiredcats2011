@@ -5,5 +5,5 @@ ctdt.*
 *.out
 Makefile
 *.csv
-*\PPC603gnu\*
+PPC603gnu\*
 *.lnk
