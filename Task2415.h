@@ -1,5 +1,8 @@
 #include "WPILib.h"
 
+#define TASK2415_DEFAULT_PRIORITY (200) // 1 = highest, 255 = lowest
+#define TASK2415_STACKSIZE (1024 * 64)  // 64kb, memory allocated for the task
+
 /*
  * Task2415
  * ========
@@ -45,11 +48,11 @@
  */
 
 class Task2415 {
-	Task2415();
-	virtual ~Task2415();
+public:
+	Task2415(void);
 	
 	// Incites taskSpawn(), tells vxWorks to add this task to the queue
-	void Start();
+	void Start(char * id);
 	
 	// Generic wrapper class that links superclass to subclass defined code
 	static int TaskWrapper(void *this_p, int a2, int a3, int a4, int a5,
@@ -57,5 +60,5 @@ class Task2415 {
 	
 	// Where the magic happens! Must be implemented by subclass
 	virtual int Main(int a2, int a3, int a4, int a5, int a6, int a7,
-					  int a8, int a9, int a10) = 0; // superclass doesn't need
+					  int a8, int a9, int a10) = 0;
 };
