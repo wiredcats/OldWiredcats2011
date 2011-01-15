@@ -1,4 +1,8 @@
+#ifndef TASK2415_H_
+#define TASK2415_H_
+
 #include "WPILib.h"
+#include "Defines.h"
 
 #define TASK2415_DEFAULT_PRIORITY (200) // 1 = highest, 255 = lowest
 #define TASK2415_STACKSIZE (1024 * 64)  // 64kb, memory allocated for the task
@@ -62,3 +66,5 @@ public:
 	virtual int Main(int a2, int a3, int a4, int a5, int a6, int a7,
 					  int a8, int a9, int a10) = 0;
 };
+
+#endif
