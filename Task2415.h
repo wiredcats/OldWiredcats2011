@@ -1,3 +1,6 @@
+#ifndef TASK2415_H_
+#define TASK2415_H_
+
 #include "WPILib.h"
 
 #define TASK2415_DEFAULT_PRIORITY (200) // 1 = highest, 255 = lowest
@@ -49,6 +52,7 @@
 
 class Task2415 {
 public:
+	// subclass constructor must call Start()
 	Task2415(void);
 	
 	// Incites taskSpawn(), tells vxWorks to add this task to the queue
@@ -61,4 +65,8 @@ public:
 	// Where the magic happens! Must be implemented by subclass
 	virtual int Main(int a2, int a3, int a4, int a5, int a6, int a7,
 					  int a8, int a9, int a10) = 0;
+	
+	void SwapAndWait();
 };
+
+#endif
