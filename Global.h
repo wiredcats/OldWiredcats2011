@@ -41,6 +41,8 @@ private:
 	
 	// defined in Defines.h
 	R_STATUS *robotStatus;
+	
+	int		 *test_int;
 public:
 	Global(void);
 	
@@ -49,7 +51,10 @@ public:
 	Joystick* GetJFakeX();
 	Joystick* GetJFakeY();
 	
+	int*	  GetTstInt();
+	
 	R_STATUS* GetRobotStatus();
+	void	  SetRobotStatus(R_STATUS rstat);
 	
 	// this is how tasks get access to the variables
 	static Global *GetInstance();
