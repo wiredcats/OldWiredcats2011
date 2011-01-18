@@ -13,7 +13,7 @@ Global::Global(void) {
 		if (GLOBAL_JRIGHT_EXISTS) jRight = new Joystick(GLOBAL_JRIGHT_PORT);
 		if (GLOBAL_JFAKEX_EXISTS) jFakeX = new Joystick(GLOBAL_JFAKEX_PORT);
 		if (GLOBAL_JFAKEY_EXISTS) jFakeY = new Joystick(GLOBAL_JFAKEY_PORT);
-		*test_int = 58;
+
 		*robotStatus = STATUS_BLANK;
 		
 		myself = this;
@@ -26,8 +26,6 @@ Joystick* Global::GetJLeft()  { return jLeft;  }
 Joystick* Global::GetJRight() { return jRight; }
 Joystick* Global::GetJFakeX() { return jFakeX; }
 Joystick* Global::GetJFakeY() { return jFakeY; }
-
-int*	  Global::GetTstInt() { return test_int; }
 
 R_STATUS* Global::GetRobotStatus() { return robotStatus; }
 void	  Global::SetRobotStatus(R_STATUS rstat) { printf("chillin\n"); *robotStatus = rstat; }

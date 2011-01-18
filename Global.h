@@ -42,7 +42,6 @@ private:
 	// defined in Defines.h
 	R_STATUS *robotStatus;
 	
-	int		 *test_int;
 public:
 	Global(void);
 	

@@ -1,7 +1,8 @@
 #include "Wiredcats2011.h"
 
 Global global;
-TaskOne t1;
+
+#include "Tasks.h"
 
 Wiredcats2011::Wiredcats2011(void) {
 	global = Global::GetInstance();
