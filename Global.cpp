@@ -3,12 +3,9 @@
 Global *Global::myself = 0;
 
 Global::Global(void) {
-	printf("in global const\n");
 	static bool alreadyRun = false;
 	
 	if (!alreadyRun) {
-		printf("in global already run!\n");
-		
 		if (GLOBAL_JLEFT_EXISTS)  jLeft  = new Joystick(GLOBAL_JLEFT_PORT);
 		if (GLOBAL_JRIGHT_EXISTS) jRight = new Joystick(GLOBAL_JRIGHT_PORT);
 		if (GLOBAL_JFAKEX_EXISTS) jFakeX = new Joystick(GLOBAL_JFAKEX_PORT);

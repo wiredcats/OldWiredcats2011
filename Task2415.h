@@ -6,6 +6,7 @@
 
 #define TASK2415_DEFAULT_PRIORITY (200) // 1 = highest, 255 = lowest
 #define TASK2415_STACKSIZE (1024 * 64)  // 64kb, memory allocated for the task
+#define TASK2415_MAX_TASKS (32)
 
 /*
  * Task2415
@@ -52,6 +53,9 @@
  */
 
 class Task2415 {
+private:
+	bool isAwake;
+
 public:
 	Task2415(void);
 	
@@ -66,6 +70,8 @@ public:
 	virtual int Main(int a2, int a3, int a4, int a5, int a6, int a7,
 					  int a8, int a9, int a10) = 0;
 	
+	void ChillTillAwake(R_STATUS rstat);
+
 	void SwapAndWait();
 };
 
