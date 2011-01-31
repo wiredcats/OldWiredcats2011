@@ -53,7 +53,7 @@
  */
 
 class Task2415 {
-private:
+protected:
 	bool isAwake;
 
 public:

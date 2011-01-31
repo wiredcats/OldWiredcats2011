@@ -5,6 +5,11 @@
 #include "CANJaguar.h"
 #include "../Task2415.h"
 #include "../Global.h"
+#include "Drive2415.h"
+
+const float AUTO2415_TANK_SPEED = 0.425;
+const float AUTO2415_DELAY_TIME = 0.8;
+const float AUTO2415_KILLSWITCH_TIME = 2 * AUTO2415_DELAY_TIME;
 
 class Autonomous2415 : public Task2415 {
 public:
@@ -15,8 +20,11 @@ public:
 	
 private:
 	Global *global;
+	RobotDrive *drive;
 	
-	RobotAutonomous *drive;
+	Timer *delayTimer, *killTimer;
+	
+	DigitalInput *lightL, *lightM, *lightR;
 };
 
 #endif

@@ -4,8 +4,8 @@
 #include "WPILib.h"
 #include "Defines.h"
 
-#define GLOBAL_JLEFT_EXISTS  (0)
-#define GLOBAL_JRIGHT_EXISTS (0)
+#define GLOBAL_JLEFT_EXISTS  (1)
+#define GLOBAL_JRIGHT_EXISTS (1)
 #define GLOBAL_JFAKEX_EXISTS (0)
 #define GLOBAL_JFAKEY_EXISTS (0)
 
@@ -39,6 +39,8 @@ private:
 	Joystick *jFakeX;
 	Joystick *jFakeY;
 	
+	Encoder *encoder;
+	
 	// defined in Defines.h
 	R_STATUS *robotStatus;
 	
@@ -49,6 +51,8 @@ public:
 	Joystick* GetJRight();
 	Joystick* GetJFakeX();
 	Joystick* GetJFakeY();
+	
+	Encoder* GetEncoder();
 	
 	int*	  GetTstInt();
 	

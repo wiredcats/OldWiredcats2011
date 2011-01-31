@@ -11,6 +11,8 @@ Global::Global(void) {
 		if (GLOBAL_JFAKEX_EXISTS) jFakeX = new Joystick(GLOBAL_JFAKEX_PORT);
 		if (GLOBAL_JFAKEY_EXISTS) jFakeY = new Joystick(GLOBAL_JFAKEY_PORT);
 
+		encoder = new Encoder(4, 5);
+		
 		*robotStatus = STATUS_BLANK;
 		
 		myself = this;
@@ -23,6 +25,8 @@ Joystick* Global::GetJLeft()  { return jLeft;  }
 Joystick* Global::GetJRight() { return jRight; }
 Joystick* Global::GetJFakeX() { return jFakeX; }
 Joystick* Global::GetJFakeY() { return jFakeY; }
+
+Encoder*  Global::GetEncoder() { return encoder; }
 
 R_STATUS* Global::GetRobotStatus() { return robotStatus; }
 void	  Global::SetRobotStatus(R_STATUS rstat) { printf("chillin\n"); *robotStatus = rstat; }
