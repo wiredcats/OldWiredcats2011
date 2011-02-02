@@ -3,6 +3,7 @@
 Task2415::Task2415(void) {
 	// task default values
 	isAwake = false;
+	keepTaskAlive = true;
 }
 
 void Task2415::Start(char * id) {
@@ -28,7 +29,7 @@ void Task2415::SwapAndWait(void) {
 
 	// sleep this task for a while, vxWorks will mark this task as inactive
 	// and switch over!
-	taskDelay(5); // temporary implementation
+	taskDelay(2);
 
 	// tell vxWorks that we wanna get back to this task
 	taskLock();

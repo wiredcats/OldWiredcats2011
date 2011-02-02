@@ -17,6 +17,7 @@ void Wiredcats2011::Disabled(void) {
 
 void Wiredcats2011::Autonomous(void) {
 	global->SetRobotStatus(STATUS_AUTONOMOUS);
+	auton.ForceAwake(); // force-start the autonomous task
 }
 
 void Wiredcats2011::OperatorControl(void) {

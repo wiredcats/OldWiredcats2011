@@ -3,10 +3,10 @@
 
 // include tasks here
 #include "Tasks/Drive2415.h"
-#include "Tasks/Encoder2415.h"
+#include "Tasks/Autonomous2415.h"
 
 // define them here
 Drive2415 drive;
-Encoder2415 encoder;
+Autonomous2415 auton;
 
 #endif

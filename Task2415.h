@@ -55,6 +55,7 @@
 class Task2415 {
 protected:
 	bool isAwake;
+	bool keepTaskAlive;
 
 public:
 	Task2415(void);
@@ -69,6 +70,8 @@ public:
 	// Where the magic happens! Must be implemented by subclass
 	virtual int Main(int a2, int a3, int a4, int a5, int a6, int a7,
 					  int a8, int a9, int a10) = 0;
+	
+	virtual void ResetTask(void);
 	
 	void ChillTillAwake(R_STATUS rstat);
 

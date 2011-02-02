@@ -10,72 +10,94 @@ Autonomous2415::Autonomous2415(void) {
 	
 	drive->SetExpiration(0.1);
 	
+	// IMPORTANT! Choose whether robot should go left or right at the fork
+	goRight = true;
+	
+	driveState = AUTO2415_DRIVE_TILL_OFF;
+	polaritySign = 0;
+	
+	motorSpeed = 0;
+	
 	Start("auto2415");
 }
 
 int Autonomous2415::Main(int a2, int a3, int a4, int a5, int a6,
 				 int a7, int a8, int a9, int a10) {
-	// We don't want to start until the robot is in teleop mode
-	while (!isAwake) { ChillTillAwake(*global->GetRobotStatus()); }	
-
-	bool left, middle, right;
+	while (keepTaskAlive) {
+		// we don't want to start until the robot is in teleop mode
+		while (!isAwake) {
+			ResetTask();
+			ChillTillAwake(*global->GetRobotStatus());
+		}	
 	
-	int autoState = 0;
-	int sign = 0;
-	
-	float speed = 0;
-	
-	drive->SetSafetyEnabled(true);
-	
-	while (*global->GetRobotStatus() == STATUS_AUTONOMOUS) {
-		left = lightL->Get() ? 1 : 0;
-		middle = lightM->Get() ? 1 : 0;
-		right = lightR->Get() ? 1 : 0;
+		bool left, middle, right;
+		bool goRight = true;
 		
-		switch (autoState) {
-		case 0:
-			if (left || right) {
-				sign = right ? 1 : -1;
+		int driveState = AUTO2415_DRIVE_TILL_OFF;
+		int polaritySign = 0;
+		
+		float speed = 0;
+		
+		drive->SetSafetyEnabled(true);
+		
+		while (*global->GetRobotStatus() == STATUS_AUTONOMOUS) {
+			// grab photosensor values
+			left = lightL->Get() ? 1 : 0;
+			middle = lightM->Get() ? 1 : 0;
+			right = lightR->Get() ? 1 : 0;
+			
+			switch (driveState) {
+			case AUTO2415_DRIVE_TILL_OFF: 
+				motorSpeed = AUTO2415_TANK_SPEED;
 				
-				autoState = 1;
-				killTimer->Start();
-				delayTimer->Start();
-			}
-			
-			drive->TankDrive(-AUTO2415_TANK_SPEED, -AUTO2415_TANK_SPEED);
-			break;
-		case 1:
-			speed = sign * AUTO2415_TANK_SPEED;
-			
-			if (middle) {
-				printf("entering autoState [0] from [1]\n");
-				autoState = 0;
-				killTimer->Stop();
-				killTimer->Reset();
-			}
-			
-			if (!delayTimer->HasPeriodPassed(AUTO2415_DELAY_TIME)) {
-				drive->TankDrive(speed, -speed);
-			} else {
-				delayTimer->Stop();
-				delayTimer->Reset();
-				if (killTimer->HasPeriodPassed(AUTO2415_KILLSWITCH_TIME)) {
-					printf("entering autoState [2] from [1]\n");
-					autoState = 2;
-				} else {
-					drive->TankDrive(speed, -speed);
+				// here we are either on the middle or have nothing
+				// either way, go straight till we find something
+				if (left || right) {
+					if (goRight) polaritySign = right ? 1 : -1; // decide if we want to go left or right
+					else		 polaritySign = left ? -1 : 1;  // at the fork
+					
+					driveState = 1;
+					killTimer->Start();
 				}
+				
+				drive->TankDrive(-motorSpeed, -motorSpeed);
+				break;
+			case AUTO2415_TURN_TILL_ON:
+				motorSpeed = polaritySign * AUTO2415_TANK_SPEED;		// pick polarity, go left or right
+				
+				// if we hit the middle, we wanna go straight again
+				if (middle) {
+					printf("entering driveState [0] from [1]\n");
+					driveState = 0;
+					killTimer->Stop();
+					killTimer->Reset();
+				} else {
+					// keep turning until we hit the middle, but if we go too long
+					// kill the autonomous (something probably messed up)
+					if (killTimer->HasPeriodPassed(AUTO2415_KILLSWITCH_TIME)) {
+						printf("entering driveState [2] from [1]\n");
+						driveState = 2;
+					} else {
+						drive->TankDrive(motorSpeed, -motorSpeed);
+					}
+				}
+				break;
+			case AUTO2415_KILL_AUTO:
+				// we've been turning too long with no middle value, let's cut our losses here
+				drive->Drive(0.0, 0.0);
+				break;
+			default:
+				drive->Drive(0.0, 0.0);
+				break;
 			}
-			break;
-		case 2:
-			drive->Drive(0.0, 0.0);
-			break;
-		default:
-			drive->Drive(0.0, 0.0);
-			break;
+	
+			SwapAndWait();
 		}
-
-		SwapAndWait();
 	}
+	
 	return 0;
+}
+
+void Autonomous2415::ForceAwake(void) {
+	isAwake = true;
 }
